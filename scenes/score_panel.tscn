@@ -1,0 +1,20 @@
+[gd_scene load_steps=2 format=3 uid="uid://drpbfywofy17x"]
+
+[ext_resource type="Script" uid="uid://bpl1poccicrki" path="res://scenes/score_panel.gd" id="1_lwh8y"]
+
+[node name="ScorePanel" type="CanvasLayer"]
+script = ExtResource("1_lwh8y")
+
+[node name="Panel" type="Panel" parent="."]
+modulate = Color(1, 1, 0.0117647, 1)
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 50.0
+grow_horizontal = 2
+
+[node name="Label" type="Label" parent="."]
+offset_left = 24.0
+offset_top = 12.0
+offset_right = 93.0
+offset_bottom = 36.0
+text = "SCORE: 0"

@@ -1,0 +1,41 @@
+[gd_scene load_steps=3 format=3 uid="uid://hsyimqrs43b3"]
+
+[ext_resource type="Script" uid="uid://5dqeqcf2tcd6" path="res://scenes/game_over_menu.gd" id="1_6ebp1"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6skn4"]
+bg_color = Color(0.0268087, 0.375253, 0.373545, 1)
+shadow_color = Color(0.396078, 0.298039, 0, 0.6)
+shadow_size = 20
+shadow_offset = Vector2(20, 20)
+
+[node name="GameOverMenu" type="CanvasLayer"]
+offset = Vector2(99, 98)
+scale = Vector2(0.6, 0.6)
+transform = Transform2D(0.6, 0, 0, 0.6, 99, 98)
+script = ExtResource("1_6ebp1")
+
+[node name="GameOverPanel" type="Panel" parent="."]
+offset_left = -79.0
+offset_top = 107.0
+offset_right = 552.0
+offset_bottom = 465.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_6skn4")
+
+[node name="ResultLabel" type="Label" parent="."]
+offset_left = 95.0
+offset_top = 130.0
+offset_right = 395.0
+offset_bottom = 226.0
+theme_override_font_sizes/font_size = 50
+text = "GAME OVER!"
+horizontal_alignment = 1
+
+[node name="RestartButton" type="Button" parent="."]
+offset_left = 119.0
+offset_top = 301.0
+offset_right = 393.0
+offset_bottom = 389.0
+theme_override_font_sizes/font_size = 30
+text = "Play Again"
+
+[connection signal="pressed" from="RestartButton" to="." method="_on_restart_button_pressed"]
