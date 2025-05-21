@@ -7,8 +7,6 @@ var game_started: bool
 const cells: int = 10 # no of  cell in rows and colums
 const cell_size: int = 50 # in pixel
 
-# food var
-var food_pos: Vector2
 
 # snake variables
 var old_data: Array
@@ -22,11 +20,6 @@ const start_pos = Vector2(start_pos_unit, start_pos_unit)
 var move_dir: Vector2
 var can_move: bool
 
-# swipe
-var swiping: bool = false
-var swipe_start_pos: Vector2
-var length = 100
-
 
 func _ready() -> void:
 	new_game()
@@ -34,9 +27,7 @@ func _ready() -> void:
 	
 func new_game() -> void:
 	self.get_tree().call_group("segment_group", "queue_free") # clear all snake segmemts
-	print("dsdf")
 	$GameOverMenu.hide()
-	print("d")
 	$ScorePanel.reset_score()
 	can_move = true
 	move_dir = Vector2.UP
@@ -64,13 +55,9 @@ func set_position(segment, pos: Vector2):
 	segment.position = (pos * cell_size)  + Vector2(0, cell_size)
 	
 func _process(_delta: float) -> void:
-	
-
-		
-		
-		
 	handle_input()
 	
+
 func handle_input():
 	if !can_move:
 		return
@@ -92,33 +79,10 @@ func handle_input():
 		move_dir = Vector2.UP
 		can_move = false
 	
-	if Input.is_action_just_pressed("press"):
-		if !swiping:
-			swiping = true
-			swipe_start_pos = self.get_viewport().get_mouse_position()
-			print("start pos", swipe_start_pos)
-		
-	if Input.is_action_just_released("press"):
-		if swiping:
-			var swipe_cur_pos = self.get_viewport().get_mouse_position()
-			if swipe_cur_pos.distance_to(swipe_start_pos) > length:
-				if swipe_cur_pos.x - swipe_start_pos.x > length:
-					move_dir = Vector2.RIGHT
-					can_move = false
-				if swipe_start_pos.x - swipe_cur_pos.x > length:
-					move_dir = Vector2.LEFT
-					can_move = false
-				if swipe_cur_pos.y - swipe_start_pos.y > length:
-					move_dir = Vector2.DOWN
-					can_move = false
-				if swipe_start_pos.y- swipe_cur_pos.y > length:
-					move_dir = Vector2.UP
-					can_move = false
 	
 	if !game_started and can_move == false:
 		start_game()
-		
-		
+
 
 func start_game():
 	game_started = true
@@ -159,7 +123,7 @@ func handle_self_eaten():
 
 func handle_food_eaten():
 	var snake_head = snake_data[0]
-	if snake_head != food_pos:
+	if snake_head != $Food.food_pos:
 		return
 
 	$ScorePanel.increment_score()
@@ -179,10 +143,10 @@ func pos_in_snake(pos: Vector2):
 
 func regen_food():
 	while true:
-		food_pos = gen_food_pos()
-		if not pos_in_snake(food_pos):
+		$Food.food_pos = gen_food_pos()
+		if not pos_in_snake($Food.food_pos):
 			break
-	set_position($Food, food_pos)
+	set_position($Food, $Food.food_pos)
 
 
 func end_game():
