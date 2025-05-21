@@ -16,7 +16,8 @@ var snake_data: Array[Vector2] = []
 var snake : Array
 
 # movement
-const start_pos_unit: int = cells /2 -1
+
+const start_pos_unit: int = floor(cells / 2) -1
 const start_pos = Vector2(start_pos_unit, start_pos_unit)
 var move_dir: Vector2
 var can_move: bool
@@ -166,8 +167,21 @@ func handle_food_eaten():
 	add_segment(old_data[-1])
 
 
+func gen_food_pos():
+	return Vector2(randi_range(0, cells-1), randi_range(0, cells -1))
+
+func pos_in_snake(pos: Vector2):
+	for segment in snake_data:
+		if segment == pos:
+			return true
+	return false
+
+
 func regen_food():
-	food_pos = Vector2(randi_range(0, cells-1), randi_range(0, cells -1))
+	while true:
+		food_pos = gen_food_pos()
+		if not pos_in_snake(food_pos):
+			break
 	set_position($Food, food_pos)
 
 
