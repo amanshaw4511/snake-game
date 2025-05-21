@@ -20,6 +20,7 @@ const start_pos = Vector2(start_pos_unit, start_pos_unit)
 var move_dir: Vector2
 var can_move: bool
 
+	
 
 func _ready() -> void:
 	new_game()
@@ -62,25 +63,27 @@ func handle_input():
 	if !can_move:
 		return
 	
+	if Input.is_action_just_pressed("ui_right"):
+		handle_direction(Vector2.RIGHT)
 	
-	if Input.is_action_just_pressed("ui_right")  and move_dir != Vector2.LEFT:
-		move_dir = Vector2.RIGHT
-		can_move = false
-	
-	if Input.is_action_just_pressed("ui_left") and move_dir != Vector2.RIGHT:
-		move_dir = Vector2.LEFT
-		can_move = false
+	if Input.is_action_just_pressed("ui_left"):
+		handle_direction(Vector2.LEFT)
 		
-	if Input.is_action_just_pressed("ui_down")  and move_dir != Vector2.UP:
-		move_dir = Vector2.DOWN
-		can_move = false
+	if Input.is_action_just_pressed("ui_down"):
+		handle_direction(Vector2.DOWN)
 		
-	if Input.is_action_just_pressed("ui_up")  and move_dir != Vector2.DOWN:
-		move_dir = Vector2.UP
-		can_move = false
+	if Input.is_action_just_pressed("ui_up"):
+		handle_direction(Vector2.UP)
+
+
+func handle_direction(direction: Vector2):
+	if direction == - move_dir: # not allow left if current dir is right, etc
+		return
 	
+	move_dir = direction
+	can_move = false
 	
-	if !game_started and can_move == false:
+	if !game_started:
 		start_game()
 
 
@@ -157,3 +160,18 @@ func end_game():
 
 func _on_game_over_menu_restart() -> void:
 	new_game()
+
+
+func _on_swipe_detector_swipe(direction: String) -> void:
+	if !can_move:
+		return
+	
+	if direction == "down":
+		handle_direction(Vector2.DOWN)
+	if direction == "up":
+		handle_direction(Vector2.UP)
+	if direction == "left":
+		handle_direction(Vector2.LEFT)
+	if direction == "right":
+		handle_direction(Vector2.RIGHT)
+	

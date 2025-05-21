@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://b51lu5m147t1r"]
+[gd_scene load_steps=9 format=3 uid="uid://b51lu5m147t1r"]
 
 [ext_resource type="Script" uid="uid://b0pxl303ajgou" path="res://scenes/main.gd" id="1_tbgi4"]
 [ext_resource type="PackedScene" uid="uid://chpapn8713n38" path="res://scenes/snake_segment.tscn" id="2_tefeu"]
@@ -7,6 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://t8wfabcha3wu" path="res://assets/apple.png" id="5_choun"]
 [ext_resource type="Script" uid="uid://beq30u57ldbxo" path="res://scenes/food.gd" id="6_o6xl0"]
 [ext_resource type="PackedScene" uid="uid://hsyimqrs43b3" path="res://scenes/game_over_menu.tscn" id="6_ya4ey"]
+[ext_resource type="Script" uid="uid://bj0rfkk487jxu" path="res://scenes/swipe_detector.gd" id="8_tipki"]
 
 [node name="Main" type="Node"]
 script = ExtResource("1_tbgi4")
@@ -29,5 +30,9 @@ script = ExtResource("6_o6xl0")
 
 [node name="GameOverMenu" parent="." instance=ExtResource("6_ya4ey")]
 
+[node name="SwipeDetector" type="Node" parent="."]
+script = ExtResource("8_tipki")
+
 [connection signal="timeout" from="MoveTimer" to="." method="_on_move_timer_timeout"]
 [connection signal="restart" from="GameOverMenu" to="." method="_on_game_over_menu_restart"]
+[connection signal="swipe" from="SwipeDetector" to="." method="_on_swipe_detector_swipe"]
